@@ -3,10 +3,12 @@
 const express = require("express");
 
 const itemRoutes = require("./routes/items");
+const { NotFoundError } = require("./middleware/expressErrors");
+
 const app = express();
 
 app.use(express.json());
-
+app.use("/items", itemRoutes);
 
 
 
