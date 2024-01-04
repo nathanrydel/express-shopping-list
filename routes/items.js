@@ -19,6 +19,7 @@ router.get("/", function (req, res, next) {
 */
 
 router.post("/", function (req, res, next) {
+  // Handle missing body data
   if (req.body === undefined) {
     throw new BadRequestError();
   }
@@ -35,30 +36,32 @@ router.post("/", function (req, res, next) {
 
 router.get("/:name", function (req, res, next) {
   const items = db.items;
-  for(const item of items) {
-    if(item.name === `${req.params.name}`) {
+  for (const item of items) {
+    if (item.name === `${req.params.name}`) {
       return res.json(item);
     }
   }
   return next();
-})
+});
 
 /**
  * PATCH /items/:name: accept JSON body, modify item, return it
 */
 
 router.patch("/:name", function (req, res, next) {
-  const items = db.items;
-  //TODO: Handle badrequest (no data in body)
+  // Handle missing body data
+  if (req.body === undefined) {
+    throw new BadRequestError();
+  }
 
-  for(let i=0; i<db.items.length; i++) {
-    if(db.items[i].name === `${req.params.name}`) {
+  for (let i = 0; i < db.items.length; i++) {
+    if (db.items[i].name === `${req.params.name}`) {
       db.items[i] = req.body;
-      return res.json({"updated": db.items[i]});
+      return res.json({ "updated": db.items[i] });
     }
   }
   return next();
-})
+});
 
 
 module.exports = router;
