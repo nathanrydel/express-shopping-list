@@ -43,4 +43,19 @@ router.get("/:name", function (req, res, next) {
   return next();
 })
 
+/**
+ * PATCH /items/:name: accept JSON body, modify item, return it
+*/
+
+router.patch("/:name", function (req, res, next) {
+  const items = db.items;
+  for(let i=0; i<db.items.length; i++) {
+    if(db.items[i].name === `${req.params.name}`) {
+      db.items[i] = req.body;
+      return res.json({"updated": db.items[i]});
+    }
+  }
+  return next();
+})
+
 module.exports = router;
