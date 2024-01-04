@@ -17,7 +17,6 @@ router.get("/", function (req, res, next) {
 /**
  * POST /items: accept JSON body, add item, and return it
  * if request body not provided, return 400 error class
- * if :name not found, return next()
 */
 
 router.post("/", function (req, res, next) {
