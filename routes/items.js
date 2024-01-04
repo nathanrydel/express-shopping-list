@@ -16,6 +16,8 @@ router.get("/", function (req, res, next) {
 
 /**
  * POST /items: accept JSON body, add item, and return it
+ * if request body not provided, return 400 error class
+ * if :name not found, return next()
 */
 
 router.post("/", function (req, res, next) {
@@ -46,6 +48,9 @@ router.get("/:name", function (req, res, next) {
 
 /**
  * PATCH /items/:name: accept JSON body, modify item, return it
+ *
+ * if request body not provided, return 400 error class
+ * if :name not found, return next()
 */
 
 router.patch("/:name", function (req, res, next) {
@@ -63,5 +68,21 @@ router.patch("/:name", function (req, res, next) {
   return next();
 });
 
+
+/**
+ * DELETE /items/:name: delete item
+ */
+
+router.delete("/:name", function (req, res, next) {
+  const itemToDelete = req.params.name;
+
+  for (let i = 0; i < db.items.length; i++) {
+    if (db.items[i].name === itemToDelete) {
+      db.items.splice(i, 1);
+      return res.json({ message: "Deleted" });
+    }
+  }
+  return next();
+});
 
 module.exports = router;
